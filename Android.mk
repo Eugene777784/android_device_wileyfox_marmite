@@ -27,14 +27,14 @@ LOCAL_MODULE_SUFFIX := -timestamp
 
 include $(BUILD_SYSTEM)/base_rules.mk
 
-$(LOCAL_BUILT_MODULE): ACTUAL_INI_FILE := /data/misc/wifi/WCNSS_qcom_cfg.ini
-$(LOCAL_BUILT_MODULE): WCNSS_INI_SYMLINK := $(TARGET_OUT)/etc/firmware/wlan/prima/WCNSS_qcom_cfg.ini
+$(LOCAL_BUILT_MODULE): ACTUAL_INI_FILE := /vendor/etc/wifi/WCNSS_qcom_cfg.ini
+$(LOCAL_BUILT_MODULE): WCNSS_INI_SYMLINK := $(TARGET_OUT_VENDOR)/firmware/wlan/prima/WCNSS_qcom_cfg.ini
 
-$(LOCAL_BUILT_MODULE): ACTUAL_BIN_FILE := /persist/WCNSS_qcom_wlan_nv.bin
-$(LOCAL_BUILT_MODULE): WCNSS_BIN_SYMLINK := $(TARGET_OUT)/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin
+$(LOCAL_BUILT_MODULE): ACTUAL_BIN_FILE := /mnt/vendor/persist/WCNSS_qcom_wlan_nv.bin
+$(LOCAL_BUILT_MODULE): WCNSS_BIN_SYMLINK := $(TARGET_OUT_VENDOR)/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin
 
-$(LOCAL_BUILT_MODULE): ACTUAL_DAT_FILE := /persist/WCNSS_wlan_dictionary.dat
-$(LOCAL_BUILT_MODULE): WCNSS_DAT_SYMLINK := $(TARGET_OUT)/etc/firmware/wlan/prima/WCNSS_wlan_dictionary.dat
+$(LOCAL_BUILT_MODULE): ACTUAL_DAT_FILE := /mnt/vendor/persist/WCNSS_wlan_dictionary.dat
+$(LOCAL_BUILT_MODULE): WCNSS_DAT_SYMLINK := $(TARGET_OUT_VENDOR)/firmware/wlan/prima/WCNSS_wlan_dictionary.dat
 
 $(LOCAL_BUILT_MODULE): $(LOCAL_PATH)/Android.mk
 $(LOCAL_BUILT_MODULE):
@@ -69,6 +69,8 @@ $(BT_FIRMWARE_MOUNT_POINT):
 $(DSP_MOUNT_POINT):
 	@echo "Creating $(DSP_MOUNT_POINT)"
 	@mkdir -p $(TARGET_OUT_VENDOR)/dsp
+	
+ALL_DEFAULT_INSTALLED_MODULES += $(FIRMWARE_MOUNT_POINT) $(BT_FIRMWARE_MOUNT_POINT) $(DSP_MOUNT_POINT)
 
 IMS_LIBS := libimscamera_jni.so libimsmedia_jni.so
 
@@ -81,7 +83,7 @@ $(IMS_SYMLINKS): $(LOCAL_INSTALLED_MODULE)
 
 ALL_DEFAULT_INSTALLED_MODULES += $(IMS_SYMLINKS)
 
-RFS_MSM_ADSP_SYMLINKS := $(TARGET_OUT)/rfs/msm/adsp/
+RFS_MSM_ADSP_SYMLINKS := $(TARGET_OUT_VENDOR)/rfs/msm/adsp/
 $(RFS_MSM_ADSP_SYMLINKS): $(LOCAL_INSTALLED_MODULE)
 	@echo "Creating RFS MSM ADSP folder structure: $@"
 	@rm -rf $@/*
@@ -93,7 +95,7 @@ $(RFS_MSM_ADSP_SYMLINKS): $(LOCAL_INSTALLED_MODULE)
 	$(hide) ln -sf /vendor/firmware_mnt $@/readonly/firmware
 	$(hide) ln -sf /vendor/firmware $@/readonly/vendor/firmware
 
-RFS_MSM_MPSS_SYMLINKS := $(TARGET_OUT)/rfs/msm/mpss/
+RFS_MSM_MPSS_SYMLINKS := $(TARGET_OUT_VENDOR)/rfs/msm/mpss/
 $(RFS_MSM_MPSS_SYMLINKS): $(LOCAL_INSTALLED_MODULE)
 	@echo "Creating RFS MSM MPSS folder structure: $@"
 	@rm -rf $@/*
